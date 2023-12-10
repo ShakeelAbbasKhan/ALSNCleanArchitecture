@@ -21,5 +21,8 @@ namespace Domain.Entity
         public ApplicationUser TranslationOfficeUser { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<OrderAssignment> OrderAssignments { get; set; }
+        public List<Ticket> Tickets { get; set; }
+        public List<Chat> Chats { get; set; }
+        public List<Payment> Payments { get; set; }
     }
 }

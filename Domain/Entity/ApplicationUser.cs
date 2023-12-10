@@ -24,5 +24,15 @@ namespace Domain.Entity
         public List<Order> Orders { get; set; }
         public List<Order> OrdersTranslator { get; set; }
         public List<OrderAssignment> OrderAssignments { get; set; }
+
+        public List<Ticket> GuestTicket { get; set; }
+        public List<Ticket> AdminTicket { get; set; }
+        public List<Chat> SenderChat { get; set; }
+        public List<Chat> ReceiverChat { get; set; }
+        public List<Feedback> Feedbacks { get; set; }
+        public List<UserBank> UserBanks { get; set; }
+        public List<UserBank> TranslationBanks { get; set; }
+        public List<Payment> AdminPayment { get; set; }
+        public List<Payment> PartyPayment { get; set; }
     }
 }

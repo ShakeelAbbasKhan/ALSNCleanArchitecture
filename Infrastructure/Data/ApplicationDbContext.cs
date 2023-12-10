@@ -138,6 +138,105 @@ namespace Infrastructure.Data
               .IsRequired()
               .OnDelete(DeleteBehavior.Restrict);
 
+
+            builder.Entity<Ticket>()
+               .HasOne(od => od.Order)
+               .WithMany(o => o.Tickets)
+               .HasForeignKey(od => od.OrderId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+              .HasOne(od => od.GuestUser)
+              .WithMany(o => o.GuestTicket)
+              .HasForeignKey(od => od.GuestId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+              .HasOne(od => od.AdminUser)
+              .WithMany(o => o.AdminTicket)
+              .HasForeignKey(od => od.AdminId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Chat>()
+              .HasOne(od => od.Order)
+              .WithMany(o => o.Chats)
+              .HasForeignKey(od => od.OrderID)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Chat>()
+              .HasOne(od => od.SenderUser)
+              .WithMany(o => o.SenderChat)
+              .HasForeignKey(od => od.SenderID)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Chat>()
+              .HasOne(od => od.RecieverUser)
+              .WithMany(o => o.ReceiverChat)
+              .HasForeignKey(od => od.SenderID)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Feedback>()
+              .HasOne(od => od.GuestUser)
+              .WithMany(o => o.Feedbacks)
+              .HasForeignKey(od => od.GuestId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<UserBank>()
+             .HasOne(od => od.ApplicationUser)
+             .WithMany(o => o.UserBanks)
+             .HasForeignKey(od => od.UserId)
+             .IsRequired()
+             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<UserBank>()
+              .HasOne(od => od.TranslationUser)
+              .WithMany(o => o.TranslationBanks)
+              .HasForeignKey(od => od.TranslationOfficeId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Payment>()
+              .HasOne(od => od.Order)
+              .WithMany(o => o.Payments)
+              .HasForeignKey(od => od.OrderId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Payment>()
+             .HasOne(od => od.AdminUser)
+             .WithMany(o => o.AdminPayment)
+             .HasForeignKey(od => od.AdminId)
+             .IsRequired()
+             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Payment>()
+              .HasOne(od => od.PartyUser)
+              .WithMany(o => o.PartyPayment)
+              .HasForeignKey(od => od.PartyId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PaymentDetail>()
+             .HasOne(od => od.Payment)
+             .WithMany(o => o.PaymentDetails)
+             .HasForeignKey(od => od.PaymentId)
+             .IsRequired()
+             .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<PaymentDetail>()
+              .HasOne(od => od.HeadOfAccount)
+              .WithMany(o => o.PaymentDetails)
+              .HasForeignKey(od => od.HeadOfAccountId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Restrict);
+
         }
 
     }

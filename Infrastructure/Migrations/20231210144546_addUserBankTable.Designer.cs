@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231210144546_addUserBankTable")]
+    partial class addUserBankTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,37 +196,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Feedback");
                 });
 
-            modelBuilder.Entity("Domain.Entity.HeadOfAccount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AccountName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AccountType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ParentAccount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ValidityFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ValidityTo")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HeadOfAccount");
-                });
-
             modelBuilder.Entity("Domain.Entity.Language", b =>
                 {
                     b.Property<int>("Id")
@@ -377,79 +349,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrderRepititions");
-                });
-
-            modelBuilder.Entity("Domain.Entity.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AdminId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Narration")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PartyId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PaymentTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdminId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("PartyId");
-
-                    b.ToTable("Payment");
-                });
-
-            modelBuilder.Entity("Domain.Entity.PaymentDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Credit")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Debit")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HeadOfAccountId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HeadOfAccountId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.ToTable("PaymentDetail");
                 });
 
             modelBuilder.Entity("Domain.Entity.RolesModule", b =>
@@ -933,52 +832,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("TargetLanguage");
                 });
 
-            modelBuilder.Entity("Domain.Entity.Payment", b =>
-                {
-                    b.HasOne("Domain.Entity.ApplicationUser", "AdminUser")
-                        .WithMany("AdminPayment")
-                        .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entity.Order", "Order")
-                        .WithMany("Payments")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entity.ApplicationUser", "PartyUser")
-                        .WithMany("PartyPayment")
-                        .HasForeignKey("PartyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("AdminUser");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("PartyUser");
-                });
-
-            modelBuilder.Entity("Domain.Entity.PaymentDetail", b =>
-                {
-                    b.HasOne("Domain.Entity.HeadOfAccount", "HeadOfAccount")
-                        .WithMany("PaymentDetails")
-                        .HasForeignKey("HeadOfAccountId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entity.Payment", "Payment")
-                        .WithMany("PaymentDetails")
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("HeadOfAccount");
-
-                    b.Navigation("Payment");
-                });
-
             modelBuilder.Entity("Domain.Entity.RolesModule", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
@@ -1135,8 +988,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entity.ApplicationUser", b =>
                 {
-                    b.Navigation("AdminPayment");
-
                     b.Navigation("AdminTicket");
 
                     b.Navigation("Feedbacks");
@@ -1149,8 +1000,6 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("OrdersTranslator");
 
-                    b.Navigation("PartyPayment");
-
                     b.Navigation("ReceiverChat");
 
                     b.Navigation("SenderChat");
@@ -1162,11 +1011,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Translators");
 
                     b.Navigation("UserBanks");
-                });
-
-            modelBuilder.Entity("Domain.Entity.HeadOfAccount", b =>
-                {
-                    b.Navigation("PaymentDetails");
                 });
 
             modelBuilder.Entity("Domain.Entity.Language", b =>
@@ -1188,19 +1032,12 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("OrderDetails");
 
-                    b.Navigation("Payments");
-
                     b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("Domain.Entity.OrderRepitition", b =>
                 {
                     b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("Domain.Entity.Payment", b =>
-                {
-                    b.Navigation("PaymentDetails");
                 });
 
             modelBuilder.Entity("Domain.Entity.Translator", b =>
